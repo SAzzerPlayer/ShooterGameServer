@@ -1,0 +1,25 @@
+{
+  "name": "shooter-game",
+  "version": "0.0.1",
+  "description": "The lab work #2. Shooter game, which uses websockets and node js",
+  "main": "./build/index.js",
+  "author": "Lohvyn Danyil <logvin24820@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node ./build/index.js",
+    "tsc": "tsc"
+  },
+  "repository": "https://github.com/SAzzerPlayer/ShooterGameServer.git",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "eslint": "7.0.0",
+    "prettier": "^2.0.5",
+    "prettify": "^0.1.7",
+    "typescript": "^3.8.3"
+  }
+}
