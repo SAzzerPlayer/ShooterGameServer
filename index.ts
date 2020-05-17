@@ -1,11 +1,12 @@
-import express = require('express');
-import upd from './path/path';
+import express from 'express';
+import ws from 'ws';
 // Create a new express app instance
-const app: express.Application = express();
-const port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
-const ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+const app = express();
+const PORT = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
+const IP   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || 'localhost';
+app.use(express.static(__dirname+'/'));
 app.get('/', function (req, res) {
-    res.send('Hello World!');
+    res.sendFile(__dirname + '/views/index.html');
 });
-app.listen(port, () => {console.log(upd)});
-console.log('Server running on http://%s:%s', ip, port);
+app.listen(PORT, () => {console.log(`Server is listening on address - ${IP}:${PORT}`)});
+console.log('Server running on http://%s:%s', IP, PORT);
