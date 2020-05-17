@@ -1,6 +1,6 @@
 // @ts-ignore
 const socket = new WebSocket(
-  `ws://http://shooter-game-server-lab2game.apps.us-east-1.starter.openshift-online.com/`,
+  `ws://shooter-game-server-lab2game.apps.us-east-1.starter.openshift-online.com/`,
 );
 
 const onClickH1 = () => {

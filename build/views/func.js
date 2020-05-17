@@ -1,6 +1,6 @@
 "use strict";
 // @ts-ignore
-const socket = new WebSocket(`ws://http://shooter-game-server-lab2game.apps.us-east-1.starter.openshift-online.com/`);
+const socket = new WebSocket(`ws://shooter-game-server-lab2game.apps.us-east-1.starter.openshift-online.com/`);
 const onClickH1 = () => {
     socket.send('User clicked on h1');
 };
