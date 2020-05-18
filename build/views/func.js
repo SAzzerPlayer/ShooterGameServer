@@ -1,28 +1,44 @@
 "use strict";
-// @ts-ignore
-const socket = new WebSocket(`ws://shooter-game-server-lab2game.apps.us-east-1.starter.openshift-online.com/`);
-const onClickH1 = () => {
-    socket.send('User clicked on h1');
-};
-socket.onopen = function (e) {
-    console.log('[open] Соединение установлено');
-    console.log('Отправляем данные на сервер');
-    socket.send('Меня зовут Джон');
-};
-socket.onmessage = function (event) {
-    console.log(`[message] Данные получены с сервера: ${event.data}`);
-};
-socket.onclose = function (event) {
-    if (event.wasClean) {
-        console.log(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
+const avatars = [
+    '../assets/avatars/1.jpg',
+    '../assets/avatars/2.png',
+    '../assets/avatars/3.png',
+    '../assets/avatars/4.jpg',
+    '../assets/avatars/5.png',
+    '../assets/avatars/6.jpg',
+];
+let currentAvatar = 0;
+const onClickMoveRightAvatar = () => {
+    if (currentAvatar === 0) {
+        currentAvatar = 5;
     }
-    else {
-        // например, сервер убил процесс или сеть недоступна
-        // обычно в этом случае event.code 1006
-        console.log('[close] Соединение прервано');
+    else
+        currentAvatar -= 1;
+    const avatarRef = document.getElementById("avatar");
+    if (avatarRef) {
+        avatarRef.src = avatars[currentAvatar];
     }
 };
-socket.onerror = function (error) {
-    console.log(`[error] ${error}`);
+const onClickMoveLeftAvatar = () => {
+    if (currentAvatar === 5) {
+        currentAvatar = 0;
+    }
+    else
+        currentAvatar += 1;
+    const avatarRef = document.getElementById("avatar");
+    if (avatarRef) {
+        avatarRef.src = avatars[currentAvatar];
+    }
 };
+const onClickButton = () => {
+    const inputRef = document.getElementById('user_input');
+    const text = inputRef === null || inputRef === void 0 ? void 0 : inputRef.value;
+};
+const init = () => {
+    const avatarRef = document.getElementById("avatar");
+    if (avatarRef) {
+        avatarRef.src = avatars[currentAvatar];
+    }
+};
+init();
 //# sourceMappingURL=func.js.map
