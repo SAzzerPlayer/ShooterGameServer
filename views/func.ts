@@ -32,13 +32,31 @@ const onClickMoveLeftAvatar = () => {
 const onClickButton = () => {
   const inputRef = document.getElementById('user_input') as HTMLInputElement;
   const text = inputRef?.value;
+  if (text.length > 3) {
+    const key = generateKey();
+    sessionStorage.setItem('client-key', key);
+    sessionStorage.setItem('avatar', currentAvatar.toString());
+    sessionStorage.setItem('username', text);
+    window.location.href = `/lobbies?key=${key}`;
+  }
 };
 
-const init = () => {
+const generateKey = () => {
+  const symbols = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+  const amount = symbols.length;
+  let key = "";
+  for( let i = 0; i < 32; i++){
+    let symbolIndex = Math.round(Math.random() * amount);
+    key += symbols[symbolIndex];
+  }
+  return key;
+};
+
+let initLobbies = () => {
   const avatarRef = document.getElementById("avatar") as HTMLImageElement;
   if (avatarRef) {
     avatarRef.src = avatars[currentAvatar];
   }
 };
 
-init();
+initLobbies();

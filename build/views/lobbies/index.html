@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lobbies</title>
+    <link rel="stylesheet" href="/views/lobbies/styles.css" />
+    <script src="/views/lobbies/func.js"></script>
+  </head>
+  <body>
+    <main class="block">
+      <h2>Welcome, gamer!))) Move checking lobbies to defend our city!</h2>
+      <div id="instructions" class="info-block">
+        <h3>Instructions</h3>
+        <p>
+          Firstly, you can create new lobby, which in you invite your friends. Or join in existed
+          lobbies, which are waiting for full team
+        </p>
+      </div>
+      <div id="lobbies" class="info-block">
+        <h3>Lobbies</h3>
+        <div id="lobbies-container" class="container"></div>
+      </div>
+      <div id="chat" class="info-block">
+        <h3>Chat</h3>
+        <div id="message-container" class="container"></div>
+        <div id="message-div">
+          <label>
+            <b>Message:</b>
+            <input id="input-message" maxlength="128" />
+          </label>
+          <button onclick="sendMessage();">Send</button>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
