@@ -1,5 +1,5 @@
 
-const socket = new WebSocket('ws://localhost:8080');
+const socket = new WebSocket('ws://shooter-game-server-lab2game.apps.us-east-1.starter.openshift-online.com/');
 
 socket.onmessage = (messageEvent: MessageEvent) => {
   const data = JSON.parse(messageEvent.data);
