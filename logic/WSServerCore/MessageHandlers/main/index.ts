@@ -1,0 +1,1 @@
+export {mainBindUser} from './bindUser'

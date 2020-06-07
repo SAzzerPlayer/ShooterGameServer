@@ -8,29 +8,117 @@
   </head>
   <body>
     <main class="block">
-      <h2>Welcome, gamer!))) Move checking lobbies to defend our city!</h2>
-      <div id="instructions" class="info-block">
-        <h3>Instructions</h3>
-        <p>
-          Firstly, you can create new lobby, which in you invite your friends. Or join in existed
-          lobbies, which are waiting for full team
-        </p>
+      <div id="main-title" class="row">
+        <h2>Welcome to shooter game, space warrior!</h2>
       </div>
-      <div id="lobbies" class="info-block">
-        <h3>Lobbies</h3>
-        <div id="lobbies-container" class="container"></div>
-      </div>
-      <div id="chat" class="info-block">
-        <h3>Chat</h3>
-        <div id="message-container" class="container"></div>
-        <div id="message-div">
-          <label>
-            <b>Message:</b>
-            <input id="input-message" maxlength="128" />
-          </label>
-          <button onclick="sendMessage();">Send</button>
+      <div id="main-information" class="row">
+        <div class="main-info-block">
+          <h4>Are you a green boy?</h4>
+          <p>If yes, you can read instructions, how defend our city and use exo armor.</p>
+        </div>
+        <div class="main-info-block">
+          <h4>Don't know how look enemies?</h4>
+          <p>You can try to realize what is it a battle in our VR simulation.</p>
+        </div>
+        <div class="main-info-block">
+          <h4>Do you want to know, how much you are a great warrior?</h4>
+          <p>You can find it in global statistics.</p>
         </div>
       </div>
+      <div id="main-buttons" class="row">
+        <button class="main-button">Instructions</button>
+        <button class="main-button">Training</button>
+        <button class="main-button">Statistics</button>
+      </div>
+      <div id="main-interactive" class="row">
+        <div id="main-rooms">
+          <div class="row main-interactive-title bottom-divider"><h3>Rooms</h3></div>
+          <div class="row main-interactive-body" id="rooms-body">
+            <div class="room-row bottom-divider">
+              <h4>Room #</h4>
+              <h4>Complexity</h4>
+              <h4>Users</h4>
+              <div style="width: 100px;"></div>
+            </div>
+            <div class="room-row bottom-divider">
+              <p>#1</p>
+              <p>Easy</p>
+              <p>1/4</p>
+              <button class="main-interactive-button">Join</button>
+            </div>
+            <div class="room-row bottom-divider">
+              <p>#2</p>
+              <p>Medium</p>
+              <p>1/3</p>
+              <button class="main-interactive-button">Join</button>
+            </div>
+            <div class="room-row bottom-divider">
+              <p>#3</p>
+              <p>Hard</p>
+              <p>1/2</p>
+              <button class="main-interactive-button">Join</button>
+            </div>
+            <div class="room-row bottom-divider">
+              <p>#4</p>
+              <p>Impossible</p>
+              <p>1/2</p>
+              <button class="main-interactive-button">Join</button>
+            </div>
+          </div>
+          <div class="row main-interactive-bottom up-divider">
+            <div>Available rooms: 1/4</div>
+            <button class="main-interactive-button">Create</button>
+          </div>
+        </div>
+        <div id="main-chat">
+          <div class="row main-interactive-title bottom-divider"><h3>Chat</h3></div>
+          <div class="row main-interactive-body" id="chat-body">
+            <div class="message bottom-divider user-message">
+              <p>message</p>
+              <div class="user-info user-message">
+                <h4>username</h4>
+                <div class="avatar">avatar</div>
+              </div>
+            </div>
+            <div class="message bottom-divider user-message">
+              <p>message</p>
+              <div class="user-info user-message">
+                <h4>username</h4>
+                <div class="avatar">avatar</div>
+              </div>
+            </div>
+            <div class="message bottom-divider user-message">
+              <p>message</p>
+              <div class="user-info user-message">
+                <h4>username</h4>
+                <div class="avatar">avatar</div>
+              </div>
+            </div>
+            <div class="message bottom-divider my-message">
+              <p>message</p>
+              <div class="user-info my-message">
+                <h4>username</h4>
+                <div class="avatar"></div>
+              </div>
+            </div>
+            <div class="message bottom-divider my-message">
+              <p>message</p>
+              <div class="user-info my-message">
+                <h4>username</h4>
+                <div class="avatar"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row main-interactive-bottom up-divider">
+            <label>
+              Message:
+              <input />
+            </label>
+            <button class="main-interactive-button">Send</button>
+          </div>
+        </div>
+      </div>
+      <div id="main-empty-space"></div>
     </main>
   </body>
 </html>

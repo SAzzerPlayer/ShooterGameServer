@@ -3,13 +3,24 @@ const socket = new WebSocket('ws://shooter-game-server-lab2game.apps.us-east-1.s
 
 socket.onmessage = (messageEvent: MessageEvent) => {
   const data = JSON.parse(messageEvent.data);
-  console.log(messageEvent);
   switch(data.type) {
     case 'chat_message': {
       console.log(data.message, data.user);
       pushMessage(data.user, data.message);
+      break;
+    }
+    case 'messages_history': {
+      const messages = data.value as Array<{message: string, user: string}>;
+      for(let item of messages) {
+        pushMessage(item.message, item.user);
+      }
+      break;
     }
   }
+};
+
+socket.onopen = ( messageEvent: Event) => {
+  socket.send(JSON.stringify({type:'history'}));
 };
 
 const pushMessage = (user: string, message: string) => {
