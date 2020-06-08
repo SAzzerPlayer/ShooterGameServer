@@ -6,8 +6,11 @@ import {ServerUserContainer} from './ServerUserContainer';
 
 export default class WSServerCore {
   static peerSockets = [] as WebSocket[];
-  static handleMessage = (message: string) => {
-    MessageHandler.handle(message);
+  static UserBase = ServerUserContainer;
+  static ChatBase = ChatMessageContainer;
+  static GameBase = GameRoomContainer;
+  static handleMessage = (message: string, ws?: WebSocket) => {
+    MessageHandler.handle(message, ws);
   };
   static sendToOne = (user: string, message: string) => {
     /*const connection = WSServerCore.users.find((connect) => user === connect.user);

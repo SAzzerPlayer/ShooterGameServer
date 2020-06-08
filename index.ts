@@ -3,6 +3,8 @@ import * as http from 'http';
 import * as WebSocket from 'ws';
 import * as fs from 'fs';
 import WSServerCore from './logic/WSServerCore';
+import {ServerUserContainer} from './logic/WSServerCore/ServerUserContainer';
+import {TTypeUserAvatar} from './logic/WSServerCore/ServerUserContainer';
 
 // Create a new express app instance
 const app = express();
@@ -15,7 +17,12 @@ app.use(express.static(__dirname + '/'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.get('/create_user', (req, res) => {
-  const {key, user, avatar} = req.query;
+  const {key, name, avatar} = req.query;
+  ServerUserContainer.register({
+    key: key as string,
+    name: name as string,
+    avatar: Number(avatar) as TTypeUserAvatar,
+  });
   res.redirect('lobbies');
 });
 app.get('/lobbies', (req, res) => {
@@ -24,40 +31,31 @@ app.get('/lobbies', (req, res) => {
 app.get('/', (req, res) => {
   res.render(__dirname + '/views/index.html', {host: `${IP}:${PORT}`});
 });
-//
-const peers = [] as WebSocket[];
-const messages = [] as Array<{message: string; user: string}>;
 wsServer.on('connection', (ws: WebSocket) => {
   //connection is up, let's add a simple simple event
+  WSServerCore.peerSockets.push(ws as any);
   ws.on('message', (message: string) => {
-    const response = JSON.parse(message);
-    console.log(response);
-    //log the received message and send it back to the client
-    switch (response.type) {
-      case 'chat_message': {
-        console.dir(response);
-        messages.push({message: response.message, user: response.user});
-        peers.forEach((wsClient) =>
-          wsClient.send(
-            JSON.stringify({type: 'chat_message', message: response.message, user: response.user}),
-          ),
-        );
-        break;
-      }
-      case 'history': {
-        ws.send(JSON.stringify({type: 'messages_history', value: messages}));
-        break;
-      }
-    }
+    WSServerCore.handleMessage(message, ws as any);
   });
-  peers.push(ws);
-  //send immediatly a feedback to the incoming connection
+  ws.on('error', (err) => {
+    console.log('[Socket error]:', err);
+  });
+  ws.on('close', () => {
+    const user = ServerUserContainer.getUserBy(ws as any, 'socket');
+    setTimeout(() => {
+      if (user && user?.socket?.readyState === user?.socket?.CLOSED) {
+        ServerUserContainer.removeUser(user.key);
+        console.log(`Socket was closed. User ${user?.name} has been left the server`);
+      }
+    }, 10000);
+  });
 });
+
 export const HOST = `${IP}:${PORT}`;
+
 server.listen(PORT, () => {
   console.log(`Server is listening on address - ${HOST}`);
 });
-console.log('Server running on http://%s:%s', IP, PORT);
 
 fs.writeFile('./build/generated-host.js', `const HOST = '${IP}:${PORT}';`, (err) => {
   console.log('Writing generated-host. Error?:' + err);

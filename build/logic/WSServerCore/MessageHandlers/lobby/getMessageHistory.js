@@ -1,5 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.lobbyGetMessageHistory = (message) => {
+exports.lobbyGetLobbyHistory = (message) => {
 };
 //# sourceMappingURL=getMessageHistory.js.map

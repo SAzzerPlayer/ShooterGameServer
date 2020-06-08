@@ -72,49 +72,13 @@
         </div>
         <div id="main-chat">
           <div class="row main-interactive-title bottom-divider"><h3>Chat</h3></div>
-          <div class="row main-interactive-body" id="chat-body">
-            <div class="message bottom-divider user-message">
-              <p>message</p>
-              <div class="user-info user-message">
-                <h4>username</h4>
-                <div class="avatar">avatar</div>
-              </div>
-            </div>
-            <div class="message bottom-divider user-message">
-              <p>message</p>
-              <div class="user-info user-message">
-                <h4>username</h4>
-                <div class="avatar">avatar</div>
-              </div>
-            </div>
-            <div class="message bottom-divider user-message">
-              <p>message</p>
-              <div class="user-info user-message">
-                <h4>username</h4>
-                <div class="avatar">avatar</div>
-              </div>
-            </div>
-            <div class="message bottom-divider my-message">
-              <p>message</p>
-              <div class="user-info my-message">
-                <h4>username</h4>
-                <div class="avatar"></div>
-              </div>
-            </div>
-            <div class="message bottom-divider my-message">
-              <p>message</p>
-              <div class="user-info my-message">
-                <h4>username</h4>
-                <div class="avatar"></div>
-              </div>
-            </div>
-          </div>
+          <div class="row main-interactive-body" id="chat-body"></div>
           <div class="row main-interactive-bottom up-divider">
             <label>
               Message:
-              <input />
+              <input id="input-chat-message" maxlength="256" />
             </label>
-            <button class="main-interactive-button">Send</button>
+            <button class="main-interactive-button" onclick="pushMessage();">Send</button>
           </div>
         </div>
       </div>

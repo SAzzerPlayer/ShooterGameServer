@@ -1,3 +1,4 @@
+//@ts-ignore
 const avatars = [
   '../assets/avatars/1.jpg',
   '../assets/avatars/2.png',
@@ -13,17 +14,17 @@ const onClickMoveRightAvatar = () => {
   if (currentAvatar === 0) {
     currentAvatar = 5;
   } else currentAvatar -= 1;
-  const avatarRef = document.getElementById("avatar") as HTMLImageElement;
+  const avatarRef = document.getElementById('avatar') as HTMLImageElement;
   if (avatarRef) {
     avatarRef.src = avatars[currentAvatar];
   }
 };
 
 const onClickMoveLeftAvatar = () => {
+  const avatarRef = document.getElementById('avatar') as HTMLImageElement;
   if (currentAvatar === 5) {
     currentAvatar = 0;
   } else currentAvatar += 1;
-  const avatarRef = document.getElementById("avatar") as HTMLImageElement;
   if (avatarRef) {
     avatarRef.src = avatars[currentAvatar];
   }
@@ -34,26 +35,26 @@ const onClickButton = () => {
   const text = inputRef?.value;
   if (text.length > 3) {
     const key = generateKey();
-    sessionStorage.setItem('client-key', key);
+    sessionStorage.setItem('key', key);
     sessionStorage.setItem('avatar', currentAvatar.toString());
-    sessionStorage.setItem('username', text);
-    window.location.href = `/lobbies?key=${key}`;
+    sessionStorage.setItem('name', text);
+    window.location.href = `/create_user?key=${key}&name=${text}&avatar=${currentAvatar}`;
   }
 };
 
 const generateKey = () => {
-  const symbols = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+  const symbols = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
   const amount = symbols.length;
-  let key = "";
-  for( let i = 0; i < 32; i++){
+  let key = '';
+  for (let i = 0; i < 31; i++) {
     let symbolIndex = Math.round(Math.random() * amount);
     key += symbols[symbolIndex];
   }
   return key;
 };
 
-let initLobbies = () => {
-  const avatarRef = document.getElementById("avatar") as HTMLImageElement;
+const initLobbies = () => {
+  const avatarRef = document.getElementById('avatar') as HTMLImageElement;
   if (avatarRef) {
     avatarRef.src = avatars[currentAvatar];
   }
