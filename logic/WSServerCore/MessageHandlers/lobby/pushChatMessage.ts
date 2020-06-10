@@ -11,7 +11,9 @@ export const lobbyPushChatMessage = (message: IMessage) => {
   const response = {
     type: 'LOBBY/PUSH_CHAT_MESSAGE',
     text: message.text,
-    ...pusher,
+    key: message.key,
+    avatar: pusher?.avatar,
+    name: pusher?.name,
   };
   for (const user of ServerUserContainer.getUsers()) {
     if (user?.socket && user.socket.readyState === user.socket.OPEN) {

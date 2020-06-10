@@ -6,7 +6,7 @@ import WSServerCore from './logic/WSServerCore';
 import {ServerUserContainer} from './logic/WSServerCore/ServerUserContainer';
 import {TTypeUserAvatar} from './logic/WSServerCore/ServerUserContainer';
 
-// Create a new express app instance
+//
 const app = express();
 const server = http.createServer(app);
 const wsServer = new WebSocket.Server({server});
@@ -16,6 +16,7 @@ const IP = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || 'localhost';
 app.use(express.static(__dirname + '/'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
+//
 app.get('/create_user', (req, res) => {
   const {key, name, avatar} = req.query;
   ServerUserContainer.register({
@@ -31,8 +32,8 @@ app.get('/lobbies', (req, res) => {
 app.get('/', (req, res) => {
   res.render(__dirname + '/views/index.html', {host: `${IP}:${PORT}`});
 });
+//
 wsServer.on('connection', (ws: WebSocket) => {
-  //connection is up, let's add a simple simple event
   WSServerCore.peerSockets.push(ws as any);
   ws.on('message', (message: string) => {
     WSServerCore.handleMessage(message, ws as any);
@@ -47,7 +48,7 @@ wsServer.on('connection', (ws: WebSocket) => {
         ServerUserContainer.removeUser(user.key);
         console.log(`Socket was closed. User ${user?.name} has been left the server`);
       }
-    }, 10000);
+    }, 15000);
   });
 });
 

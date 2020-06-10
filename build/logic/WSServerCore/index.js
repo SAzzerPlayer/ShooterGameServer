@@ -1,16 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const GameRoomContainer_1 = require("./GameRoomContainer");
 const MessageHandler_1 = require("./MessageHandler");
-const ChatMessageContainer_1 = require("./ChatMessageContainer");
-const ServerUserContainer_1 = require("./ServerUserContainer");
 class WSServerCore {
 }
 exports.default = WSServerCore;
 WSServerCore.peerSockets = [];
-WSServerCore.UserBase = ServerUserContainer_1.ServerUserContainer;
-WSServerCore.ChatBase = ChatMessageContainer_1.ChatMessageContainer;
-WSServerCore.GameBase = GameRoomContainer_1.GameRoomContainer;
 WSServerCore.handleMessage = (message, ws) => {
     MessageHandler_1.MessageHandler.handle(message, ws);
 };

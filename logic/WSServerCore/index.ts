@@ -1,14 +1,7 @@
-import {GameRoomCore} from '../GameRoomCore/GameRoomCore';
-import {GameRoomContainer} from './GameRoomContainer';
 import {MessageHandler} from './MessageHandler';
-import {ChatMessageContainer} from './ChatMessageContainer';
-import {ServerUserContainer} from './ServerUserContainer';
 
 export default class WSServerCore {
   static peerSockets = [] as WebSocket[];
-  static UserBase = ServerUserContainer;
-  static ChatBase = ChatMessageContainer;
-  static GameBase = GameRoomContainer;
   static handleMessage = (message: string, ws?: WebSocket) => {
     MessageHandler.handle(message, ws);
   };
