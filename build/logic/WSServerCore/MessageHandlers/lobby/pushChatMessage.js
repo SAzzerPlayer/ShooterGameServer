@@ -5,15 +5,17 @@ const ServerUserContainer_1 = require("../../ServerUserContainer");
 exports.lobbyPushChatMessage = (message) => {
     ChatMessageContainer_1.ChatMessageContainer.push({
         text: message.text,
-        user: message.key,
+        user: message.user.key,
     });
-    const pusher = ServerUserContainer_1.ServerUserContainer.getUserBy(message.key, 'key');
+    const pusher = ServerUserContainer_1.ServerUserContainer.getUserBy(message.user.key, 'key');
     const response = {
         type: 'LOBBY/PUSH_CHAT_MESSAGE',
         text: message.text,
-        key: message.key,
-        avatar: pusher === null || pusher === void 0 ? void 0 : pusher.avatar,
-        name: pusher === null || pusher === void 0 ? void 0 : pusher.name,
+        user: {
+            key: message.user.key,
+            avatar: pusher === null || pusher === void 0 ? void 0 : pusher.avatar,
+            name: pusher === null || pusher === void 0 ? void 0 : pusher.name,
+        },
     };
     for (const user of ServerUserContainer_1.ServerUserContainer.getUsers()) {
         if ((user === null || user === void 0 ? void 0 : user.socket) && user.socket.readyState === user.socket.OPEN) {

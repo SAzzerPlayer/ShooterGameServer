@@ -5,15 +5,17 @@ import {ServerUserContainer} from '../../ServerUserContainer';
 export const lobbyPushChatMessage = (message: IMessage) => {
   ChatMessageContainer.push({
     text: message.text as string,
-    user: message.key as string,
+    user: message.user!.key as string,
   });
-  const pusher = ServerUserContainer.getUserBy(message.key as string, 'key');
+  const pusher = ServerUserContainer.getUserBy(message.user!.key as string, 'key');
   const response = {
     type: 'LOBBY/PUSH_CHAT_MESSAGE',
     text: message.text,
-    key: message.key,
-    avatar: pusher?.avatar,
-    name: pusher?.name,
+    user: {
+      key: message.user!.key,
+      avatar: pusher?.avatar,
+      name: pusher?.name,
+    },
   };
   for (const user of ServerUserContainer.getUsers()) {
     if (user?.socket && user.socket.readyState === user.socket.OPEN) {

@@ -20,7 +20,7 @@ export class User implements IUser {
     this.avatar = avatar;
     this.socket = undefined;
   }
-  setWebSocket(socket: WebSocket) {
+  setWebSocket?(socket: WebSocket) {
     this.socket = socket;
   }
 }

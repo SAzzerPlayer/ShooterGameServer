@@ -1,23 +1,33 @@
 import {IMessage} from '../../../interfaces/MessageTypes';
 import {ChatMessageContainer} from '../../ChatMessageContainer';
 import {ServerUserContainer} from '../../ServerUserContainer';
+import {GameRoomContainer} from '../../GameRoomContainer';
 
 export const lobbyGetLobbyHistory = (message: IMessage) => {
-  const {key} = message;
   const response = {
     type: message.type,
     chat: ChatMessageContainer.getMessages()
-      .filter((message) => ServerUserContainer.getUserBy(message.user, 'key'))
-      .map((message) => {
-        const user = ServerUserContainer.getUserBy(message.user, 'key');
+      .filter((chatMessage) => ServerUserContainer.getUserBy(chatMessage.user, 'key'))
+      .map((chatMessage) => {
+        const user = ServerUserContainer.getUserBy(chatMessage!.user, 'key');
         return {
-          ...message,
-          avatar: user?.avatar,
-          name: user?.name,
+          ...chatMessage,
+          user: {
+            avatar: user?.avatar,
+            name: user?.name,
+          },
         };
       }),
+    rooms: GameRoomContainer.getRooms().map((room) => {
+      return {
+        key: room.key,
+        complexity: room.complexity,
+        limitUsers: +room.maxUsersLimit,
+        currentUsers: room.users.length,
+      };
+    }),
   };
-  const user = ServerUserContainer.getUserBy(key as string, 'key');
+  const user = ServerUserContainer.getUserBy(message.user!.key as string, 'key');
   if (user && user?.socket) {
     user.socket.send(JSON.stringify(response));
   }

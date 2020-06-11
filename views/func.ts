@@ -47,7 +47,7 @@ const generateKey = () => {
   const amount = symbols.length;
   let key = '';
   for (let i = 0; i < 31; i++) {
-    let symbolIndex = Math.round(Math.random() * amount);
+    let symbolIndex = Math.round(Math.random() * (amount - 1));
     key += symbols[symbolIndex];
   }
   return key;

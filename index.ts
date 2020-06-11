@@ -26,6 +26,13 @@ app.get('/create_user', (req, res) => {
   });
   res.redirect('lobbies');
 });
+app.get('/room', (req, res) => {
+  res.render(__dirname + '/views/game/index.html');
+});
+app.get('/direct_to_room', (req, res) => {
+  const {room, user} = req.query;
+  res.redirect('/room');
+});
 app.get('/lobbies', (req, res) => {
   res.render(__dirname + '/views/lobbies/index.html');
 });
