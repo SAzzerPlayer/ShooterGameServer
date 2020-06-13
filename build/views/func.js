@@ -2,14 +2,14 @@
 //@ts-ignore
 const avatars = [
     '../assets/avatars/1.jpg',
-    '../assets/avatars/2.png',
-    '../assets/avatars/3.png',
+    '../assets/avatars/2.jpg',
+    '../assets/avatars/3.jpg',
     '../assets/avatars/4.jpg',
-    '../assets/avatars/5.png',
+    '../assets/avatars/5.jpg',
     '../assets/avatars/6.jpg',
 ];
 let currentAvatar = 0;
-const onClickMoveRightAvatar = () => {
+const onClickMoveLeftAvatar = () => {
     if (currentAvatar === 0) {
         currentAvatar = 5;
     }
@@ -20,7 +20,7 @@ const onClickMoveRightAvatar = () => {
         avatarRef.src = avatars[currentAvatar];
     }
 };
-const onClickMoveLeftAvatar = () => {
+const onClickMoveRightAvatar = () => {
     const avatarRef = document.getElementById('avatar');
     if (currentAvatar === 5) {
         currentAvatar = 0;

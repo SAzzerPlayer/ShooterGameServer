@@ -1,0 +1,14 @@
+#game-title {
+  grid-area: game-title;
+}
+
+#game-area {
+  grid-area: game-area;
+  background-color: yellow;
+  height: 100%;
+  width: 100%;
+}
+
+#game-area:hover {
+  cursor: url('../../assets/icons/aim.png'), pointer;
+}

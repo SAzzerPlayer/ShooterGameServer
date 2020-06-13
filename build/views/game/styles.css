@@ -1,0 +1,31 @@
+body {
+  background: no-repeat url('../../assets/background/game2.jpg');
+  background-size: 100% auto;
+  display: grid;
+  grid-template-rows: 5% 600px auto;
+  grid-template-columns: auto 1000px auto;
+  grid-template-areas: '. . .' '. main .' '. . .';
+  width: 1366px;
+  height: 768px;
+}
+
+main {
+  display: grid;
+  grid-area: main;
+  background-color: white;
+  grid-template-rows: 40px 460px 20px 80px;
+  grid-auto-columns: 60px 40px 700px 40px 160px;
+  grid-template-areas: 'team-title . game-title . info-title' 'team-table . game-area . info-table' '. . . . .' 'exit-button . user-table . .';
+}
+
+.title {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  height: 100%;
+}
+
+#exit-room {
+  grid-area: exit-button;
+}

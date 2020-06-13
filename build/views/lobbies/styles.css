@@ -1,5 +1,5 @@
 body {
-  background: no-repeat url('../../assets/background/thumb-1920-966319.jpg');
+  background: no-repeat url('../../assets/background/lobby.png');
   background-size: 100% auto;
   display: grid;
   grid-template-rows: 5% 600px auto;
@@ -155,7 +155,8 @@ main {
   justify-content: space-between;
 }
 
-.room-row h4, .room-row p {
+.room-row h4,
+.room-row p {
   text-align: center;
   width: 100px;
 }

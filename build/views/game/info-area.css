@@ -1,0 +1,8 @@
+#info-table {
+  grid-area: info-table;
+  background-color: yellow;
+  height: 100%;
+}
+#info-title {
+  grid-area: info-title;
+}

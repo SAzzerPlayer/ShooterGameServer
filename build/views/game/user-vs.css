@@ -1,0 +1,39 @@
+#user-table {
+  grid-area: user-table;
+  background: pink;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#user-avatar {
+  width: 80px;
+  height: 80px;
+}
+
+#user-name-body {
+  display: flex;
+  height: 80px;
+  width: 80px;
+  align-items: center;
+  justify-content: center;
+}
+
+#user-name {
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+#laser-gun {
+  height: 100%;
+}
+
+#battery-level-body {
+    width: 100px;
+}
+
+#battery-state {
+  width: 60px;
+}

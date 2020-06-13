@@ -3,10 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <title>Title</title>
-    <link rel="stylesheet" href="/views/lobbies/styles.css" />
-    <script src="/views/lobbies/func.js"></script>
+    <link rel="stylesheet" href="/views/game/styles.css" />
+    <link rel="stylesheet" href="/views/game/game-area.css" />
+    <link rel="stylesheet" href="/views/game/info-area.css" />
+    <link rel="stylesheet" href="/views/game/team-area.css" />
+    <link rel="stylesheet" href="/views/game/user-vs.css" />
+    <script src="/views/game/func.js"></script>
   </head>
   <body>
-    <h1>Game</h1>
+    <main>
+      <h3 id="team-title" class="title">TEAM</h3>
+      <h3 id="info-title" class="title">INFO</h3>
+      <h3 id="game-title" class="title">STAGE #<span id="game-stage-number">1</span></h3>
+      <div id="team-table">
+        <div id="gamer-1" class="gamer-block">
+          <img id="gamer-1-avatar" class="avatar" src="../../assets/avatars/1.jpg" />
+          <span id="gamer-1-username" class="username">Name</span>
+        </div>
+        <div id="gamer-2" class="gamer-block">
+          <img id="gamer-2-avatar" class="avatar" src="../../assets/avatars/1.jpg" />
+          <span id="gamer-2-username" class="username">Name</span>
+        </div>
+        <div id="gamer-3" class="gamer-block">
+          <img id="gamer-3-avatar" class="avatar" src="../../assets/avatars/unavailable.png" />
+          <span id="gamer-3-username" class="username">Name</span>
+        </div>
+        <div id="gamer-4" class="gamer-block">
+          <img id="gamer-4-avatar" class="avatar" src="../../assets/avatars/unavailable.png" />
+          <span id="gamer-4-username" class="username">Name</span>
+        </div>
+      </div>
+      <div id="info-table"></div>
+      <div id="game-area"></div>
+      <div id="user-table">
+        <div id="user-name-body">
+          <span id="user-name">Name</span>
+        </div>
+        <img id="user-avatar" src="../../assets/avatars/1.jpg" />
+        <div id="user-health-body">
+          <p id="user-health-title">HEALTH</p>
+          <p><span id="user-health">100</span>%</p>
+        </div>
+        <img id="laser-gun" src="../../assets/imgs/gun.png"/>
+        <div id="battery-level-body">
+          <p id="battery-level-limit">
+            ENERGY
+          </p>
+          <img id="battery-state" src="../../assets/imgs/bat-level-3.png"/>
+        </div>
+      </div>
+      <button id="exit-room">Exit</button>
+    </main>
   </body>
 </html>

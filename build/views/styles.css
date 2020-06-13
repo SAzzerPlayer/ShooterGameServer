@@ -8,7 +8,7 @@ main {
 }
 
 body {
-  background: no-repeat url('../assets/background/thumb-1920-715677.png');
+  background: no-repeat url('../assets/background/welcome.png');
   background-size: 100% auto;
   display: grid;
   grid-template-rows: 10% 450px auto;
