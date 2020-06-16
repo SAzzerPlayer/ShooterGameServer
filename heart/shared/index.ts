@@ -1,0 +1,1 @@
+export {IShooterGameServer} from './IShooterGameServer';
