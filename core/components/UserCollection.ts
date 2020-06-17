@@ -18,8 +18,12 @@ export class UserCollection {
 
   register = (user: IServerUserParams): boolean => {
     const {collection, maxUserAmount} = this;
+    if (collection.find((currentUser) => currentUser.username === user.username!)) {
+      return true;
+    }
     if (collection.length < maxUserAmount) {
       collection.push(new ServerUser(user));
+      return true;
     }
     return false;
   };

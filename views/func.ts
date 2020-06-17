@@ -37,8 +37,8 @@ const onClickButton = () => {
     const key = generateKey();
     sessionStorage.setItem('key', key);
     sessionStorage.setItem('avatar', currentAvatar.toString());
-    sessionStorage.setItem('name', text);
-    window.location.href = `/create_user?key=${key}&name=${text}&avatar=${currentAvatar}`;
+    sessionStorage.setItem('username', text);
+    window.location.href = `/create_user?key=${key}&username=${text}&avatar=${currentAvatar}`;
   }
 };
 

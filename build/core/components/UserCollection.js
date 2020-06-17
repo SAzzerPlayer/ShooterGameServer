@@ -1,26 +1,42 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const IServerUser_1 = require("../shared/IServerUser");
+const shared_1 = require("../shared");
 const MIN_AVAILABLE_USER_AMOUNT = 1;
 const MAX_AVAILABLE_USER_AMOUNT = 20;
 class UserCollection {
     constructor(maxUserAmount) {
         this.register = (user) => {
             const { collection, maxUserAmount } = this;
+            if (collection.find((currentUser) => currentUser.username === user.username)) {
+                return true;
+            }
             if (collection.length < maxUserAmount) {
-                collection.push(new IServerUser_1.ServerUser(user));
+                collection.push(new shared_1.ServerUser(user));
+                return true;
             }
             return false;
+        };
+        this.unregister = (user) => {
+            const { collection } = this;
+            !!user.socket && user.socket.close();
+            collection.splice(collection.indexOf(user), 1);
         };
         this.bindSocketToUser = (username, socket) => {
             const { collection } = this;
             const user = collection.find((currentUser) => currentUser.username === username);
             if (user) {
                 user.socket = socket;
+                user.resetActivity();
             }
             else {
                 console.log(`[Error]: User ${username} hasn't been found in the user collection!`);
             }
+        };
+        this.clean = () => {
+            for (const user of this.collection) {
+                !!user.socket && user.socket.close();
+            }
+            this.collection.length = 0;
         };
         this.getUsers = () => [...this.collection];
         this.getUserBy = (username) => this.collection.find((currentUser) => currentUser.username === username);

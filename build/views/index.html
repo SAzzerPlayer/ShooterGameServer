@@ -9,27 +9,31 @@
   </head>
   <body>
     <main class="block">
-      <h1>Hello, Guest!</h1>
-      <h2>This is a game server of AdvShooter!</h2>
-      <h3>Firstly, for playing, you have to login as a user. And next we redirect you to lobbies</h3>
+      <h2>Hello, Guest!</h2>
+      <h3>This is a game server of AdvShooter!</h3>
+      <h4>
+        Firstly, for playing, you have to login as a user. And next we redirect you to lobbies
+      </h4>
       <label>
         Username:
         <input id="user_input" maxlength="16" />
       </label>
-      <h3>Choice your avatar:</h3>
+      <h4>Choice your avatar:</h4>
       <div id="avatar-choice">
         <div class="icon-button" onclick="onClickMoveLeftAvatar();">
-          <img class='icon' src="../assets/icons/left.png" alt="left">
+          <img class="icon" src="../assets/icons/left.png" alt="left" />
         </div>
-        <img id="avatar" alt="avatar" src="../assets/avatars/1.jpg"/>
+        <img id="avatar" alt="avatar" src="../assets/avatars/1.jpg" />
         <div class="icon-button" onclick="onClickMoveRightAvatar();">
-          <img class='icon' src="../assets/icons/right.png" alt="right">
+          <img class="icon" src="../assets/icons/right.png" alt="right" />
         </div>
       </div>
       <button onclick="onClickButton(event);">
         Join
       </button>
     </main>
-  <script>init();</script>
+    <script>
+      init();
+    </script>
   </body>
 </html>

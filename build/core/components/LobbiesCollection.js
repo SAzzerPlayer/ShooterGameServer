@@ -1,2 +1,2 @@
 "use strict";
-//# sourceMappingURL=LobbiesCollection.js.map
+//# sourceMappingURL=RoomsCollection.js.map

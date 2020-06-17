@@ -1,5 +1,7 @@
-import {TWSMessage, IWSMessageData} from '../shared/TWSMessage';
+import {TWSMessage, IWSMessageData} from '../shared';
 import {mainBindUser, mainPong, mainCheckUser} from './main';
+import {chatPushMessage} from './chat';
+import {lobbyGetHistory} from './lobby';
 
 export const produceAction = (type: TWSMessage, data: IWSMessageData, senderSocket?: WebSocket) => {
   console.log(`[Received message]: ${type}`);
@@ -14,6 +16,14 @@ export const produceAction = (type: TWSMessage, data: IWSMessageData, senderSock
     }
     case 'MAIN/PONG': {
       mainPong(data.user!.username);
+      break;
+    }
+    case 'CHAT/PUSH_MESSAGE': {
+      chatPushMessage(data.chat!.message!);
+      break;
+    }
+    case 'LOBBY/GET_HISTORY': {
+      lobbyGetHistory(data.user!.username);
       break;
     }
     default: {

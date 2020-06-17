@@ -11,7 +11,7 @@ const avatars = [
 const socket = new WebSocket('ws://localhost:8080/');
 const CURRENT_USER_OBJ = {
     key: '',
-    name: '',
+    username: '',
     avatar: 0,
 };
 let amountOfRooms = 0;
@@ -19,63 +19,79 @@ const updateAmountOfRooms = () => {
     document.getElementById('available-rooms').textContent = `${amountOfRooms}/4`;
 };
 socket.onmessage = (messageEvent) => {
+    var _a, _b, _c, _d, _e, _f, _g;
     const message = JSON.parse(messageEvent.data);
     console.log(message);
     switch (message.type) {
         case 'MAIN/BIND_USER': {
             const message = {
-                type: 'LOBBY/GET_LOBBY_HISTORY',
-                user: { key: CURRENT_USER_OBJ.key },
+                type: 'LOBBY/GET_HISTORY',
+                data: {
+                    user: {
+                        username: CURRENT_USER_OBJ.username,
+                    },
+                },
             };
             socket.send(JSON.stringify(message));
             break;
         }
-        case 'LOBBY/GET_LOBBY_HISTORY': {
-            if (message.chat) {
-                for (const chatMessage of message.chat) {
+        case 'LOBBY/GET_HISTORY': {
+            if ((_b = (_a = message === null || message === void 0 ? void 0 : message.data) === null || _a === void 0 ? void 0 : _a.chat) === null || _b === void 0 ? void 0 : _b.history) {
+                for (const chatMessage of message.data.chat.history) {
                     addMessageToChat(chatMessage);
                 }
             }
-            if (message.rooms) {
-                for (const room of message.rooms) {
-                    addRoomToLobbies(room);
-                }
-            }
             break;
         }
-        case 'LOBBY/PUSH_CHAT_MESSAGE': {
-            addMessageToChat(message);
+        case 'CHAT/PUSH_MESSAGE': {
+            if ((_d = (_c = message === null || message === void 0 ? void 0 : message.data) === null || _c === void 0 ? void 0 : _c.chat) === null || _d === void 0 ? void 0 : _d.message) {
+                addMessageToChat((_f = (_e = message === null || message === void 0 ? void 0 : message.data) === null || _e === void 0 ? void 0 : _e.chat) === null || _f === void 0 ? void 0 : _f.message);
+            }
             break;
         }
         case 'MAIN/WARNING': {
-            console.log(message.text);
+            alert((_g = message === null || message === void 0 ? void 0 : message.data) === null || _g === void 0 ? void 0 : _g.warning);
             break;
         }
-        case 'LOBBY/CREATE_NEW_ROOM': {
-            if (message.user.key === CURRENT_USER_OBJ.key) {
-                window.location.href = `/direct_to_room/?room=${message.room.key}&user=${message.user.key}`;
-            }
-            addRoomToLobbies(message.room);
+        case 'MAIN/PING': {
+            const message = {
+                type: 'MAIN/PONG',
+                data: {
+                    user: {
+                        username: CURRENT_USER_OBJ.username,
+                    },
+                },
+            };
+            socket.send(JSON.stringify(message));
             break;
+        }
+        /*case 'LOBBY/CREATE_NEW_ROOM': {
+          if (message.user.key === CURRENT_USER_OBJ.key) {
+            window.location.href = `/direct_to_room/?room=${message.room.key}&user=${message.user.key}`;
+          }
+          addRoomToLobbies(message.room);
+          break;
         }
         case 'LOBBY/JOIN_ROOM': {
-            window.location.href = `/direct_to_room/?room=${message.room.key}&user=${CURRENT_USER_OBJ.key}`;
-            break;
+          window.location.href = `/direct_to_room/?room=${message.room.key}&user=${CURRENT_USER_OBJ.key}`;
+          break;
         }
         case 'LOBBY/REFRESH_LOBBY': {
-            cleanLobbiesRooms();
-            for (const room of message.rooms) {
-                addRoomToLobbies(room);
-            }
-            break;
-        }
+          cleanLobbiesRooms();
+          for (const room of message.rooms) {
+            addRoomToLobbies(room);
+          }
+          break;
+        }*/
     }
 };
 socket.onopen = (messageEvent) => {
     console.log('Socket is opening. Start binding the user');
     const message = {
         type: 'MAIN/BIND_USER',
-        user: { key: CURRENT_USER_OBJ.key },
+        data: {
+            user: CURRENT_USER_OBJ,
+        },
     };
     socket.send(JSON.stringify(message));
 };
@@ -83,20 +99,25 @@ socket.onerror = (err) => {
     console.log(`Socket error!!! ${err}`);
 };
 socket.onclose = (messageEvent) => {
-    console.log('Socket has closed. Something was happened');
     setTimeout(() => {
         window.location.href = `/`;
-    }, 5000);
+    }, 20000);
+    alert('Socket has closed. Something was happened');
 };
 const pushMessage = () => {
     const inputRef = document.getElementById('input-chat-message');
     const text = inputRef.value;
     if (text === null || text === void 0 ? void 0 : text.length) {
         const message = {
-            type: 'LOBBY/PUSH_CHAT_MESSAGE',
-            text: text,
-            user: {
-                key: CURRENT_USER_OBJ.key,
+            type: 'CHAT/PUSH_MESSAGE',
+            data: {
+                chat: {
+                    message: {
+                        text,
+                        username: CURRENT_USER_OBJ.username,
+                        avatar: CURRENT_USER_OBJ.avatar,
+                    },
+                },
             },
         };
         inputRef.value = '';
@@ -104,7 +125,7 @@ const pushMessage = () => {
     }
 };
 const addMessageToChat = (message) => {
-    const messageIs = message.user.key === CURRENT_USER_OBJ.key ? ' my-message' : ' user-message';
+    const messageIs = message.username === CURRENT_USER_OBJ.username ? ' my-message' : ' user-message';
     const chat = document.getElementById('chat-body');
     //
     const messageRow = document.createElement('div');
@@ -117,11 +138,11 @@ const addMessageToChat = (message) => {
     messageUserInfo.className = 'user-info' + messageIs;
     //
     const messageUserName = document.createElement('h4');
-    messageUserName.innerText = message.user.name;
+    messageUserName.innerText = message.username;
     //
     const messageUserAvatar = document.createElement('img');
     messageUserAvatar.className = 'avatar';
-    messageUserAvatar.src = avatars[message.user.avatar];
+    messageUserAvatar.src = avatars[message.avatar];
     //
     messageUserInfo.appendChild(messageUserName);
     messageUserInfo.appendChild(messageUserAvatar);
@@ -141,52 +162,53 @@ const cleanLobbiesRooms = () => {
         }
     }
 };
-const joinGameRoom = (room) => {
-    const message = {
-        type: 'LOBBY/JOIN_ROOM',
-        room,
-        user: CURRENT_USER_OBJ,
-    };
-    socket.send(JSON.stringify(message));
+/*const joinGameRoom = (room: IRoomMessage) => {
+  const message = {
+    type: 'LOBBY/JOIN_ROOM',
+    room,
+    user: CURRENT_USER_OBJ,
+  };
+  socket.send(JSON.stringify(message));
 };
-const addRoomToLobbies = (message) => {
-    const lobby = document.getElementById('rooms-body');
-    //
-    const roomDiv = document.createElement('div');
-    roomDiv.className = 'room-row bottom-divider rendered-room';
-    //
-    const roomNumber = document.createElement('p');
-    amountOfRooms += 1;
-    roomNumber.textContent = `${amountOfRooms}`;
-    //
-    const roomComplexity = document.createElement('p');
-    roomComplexity.textContent = `${message.complexity}`;
-    //
-    const roomUsers = document.createElement('p');
-    roomUsers.textContent = `${message.currentUsers}/${message.limitUsers}`;
-    //
-    const roomJoinButton = document.createElement('button');
-    roomJoinButton.className = 'main-interactive-button';
-    roomJoinButton.onclick = () => joinGameRoom(message);
-    roomJoinButton.innerText = 'Join';
-    //
-    roomDiv.appendChild(roomNumber);
-    roomDiv.appendChild(roomComplexity);
-    roomDiv.appendChild(roomUsers);
-    roomDiv.appendChild(roomJoinButton);
-    //
-    lobby.appendChild(roomDiv);
-    //
-    updateAmountOfRooms();
-};
+
+const addRoomToLobbies = (message: IRoomMessage) => {
+  const lobby = document.getElementById('rooms-body') as HTMLDivElement;
+  //
+  const roomDiv = document.createElement('div') as HTMLDivElement;
+  roomDiv.className = 'room-row bottom-divider rendered-room';
+  //
+  const roomNumber = document.createElement('p') as HTMLParagraphElement;
+  amountOfRooms += 1;
+  roomNumber.textContent = `${amountOfRooms}`;
+  //
+  const roomComplexity = document.createElement('p') as HTMLParagraphElement;
+  roomComplexity.textContent = `${message.complexity}`;
+  //
+  const roomUsers = document.createElement('p') as HTMLParagraphElement;
+  roomUsers.textContent = `${message.currentUsers}/${message.limitUsers}`;
+  //
+  const roomJoinButton = document.createElement('button') as HTMLButtonElement;
+  roomJoinButton.className = 'main-interactive-button';
+  roomJoinButton.onclick = () => joinGameRoom(message);
+  roomJoinButton.innerText = 'Join';
+  //
+  roomDiv.appendChild(roomNumber);
+  roomDiv.appendChild(roomComplexity);
+  roomDiv.appendChild(roomUsers);
+  roomDiv.appendChild(roomJoinButton);
+  //
+  lobby.appendChild(roomDiv);
+  //
+  updateAmountOfRooms();
+};*/
 const checkUserHasData = () => {
     const key = sessionStorage.getItem('key');
-    const name = sessionStorage.getItem('name');
+    const username = sessionStorage.getItem('username');
     const avatar = sessionStorage.getItem('avatar');
     CURRENT_USER_OBJ.key = key;
-    CURRENT_USER_OBJ.name = name;
+    CURRENT_USER_OBJ.username = username;
     CURRENT_USER_OBJ.avatar = Number(avatar);
-    if (!key || !name || !avatar) {
+    if (!key || !username || !avatar) {
         window.location.href = `/`;
     }
 };
@@ -199,7 +221,6 @@ const createGameRoom = () => {
         type: 'LOBBY/CREATE_NEW_ROOM',
     };
     socket.send(JSON.stringify(message));
-    window.location.href = '/lobbies/#close';
 };
 checkUserHasData();
 //# sourceMappingURL=func.js.map

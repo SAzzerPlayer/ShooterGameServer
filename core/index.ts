@@ -3,44 +3,15 @@ import {ChatCollection, UserCollection} from './components';
 import {IWSMessage, IOutputWSMessage, TWSMessage} from './shared';
 
 const PING_PONG_INTERVAL = 5000; // ms
-
-interface IGameServerParams {
-  maxUserAmount: number;
-  maxLobbiesAmount: number;
-  chatMessagesLimit: number;
-}
+const MAX_ROOMS_AMOUNT = 4;
+const MAX_USERS_AMOUNT = 20;
+const CHAT_MESSAGES_LIMIT = 200;
 
 export class GameServer {
-  private static _instance: GameServer;
-  private static _userCollection: UserCollection;
-  private static _chatCollection: ChatCollection;
-  private static _maxLobbiesAmount: number;
-  private static _chatMessagesLimit: number;
+  private static _userCollection = new UserCollection(MAX_USERS_AMOUNT);
+  private static _chatCollection = new ChatCollection(CHAT_MESSAGES_LIMIT);
+  private static _roomsCollection = [];
   private static pingPongTimerId = 0 as any;
-  constructor(
-    maxUserAmount: number | IGameServerParams = 10,
-    maxLobbiesAmount: number = 4,
-    chatMessagesLimit: number = 200,
-  ) {
-    if (maxUserAmount instanceof Number) {
-      GameServer._userCollection = new UserCollection(maxUserAmount as number);
-      GameServer._maxLobbiesAmount = maxLobbiesAmount;
-      GameServer._chatMessagesLimit = chatMessagesLimit;
-    } else {
-      const params = maxUserAmount as IGameServerParams;
-      [GameServer._maxLobbiesAmount, GameServer._chatMessagesLimit] = [
-        params.maxLobbiesAmount,
-        params.chatMessagesLimit,
-      ];
-    }
-    GameServer._instance = this;
-  }
-  public static getInstance = (): GameServer => {
-    if (GameServer._instance) {
-      return GameServer._instance;
-    }
-    return (GameServer._instance = new GameServer());
-  };
   public static sendToUser = (username: string, message: IOutputWSMessage) => {
     const user = GameServer._userCollection.getUserBy(username);
     if (!!user && !!user.socket) {
@@ -69,7 +40,7 @@ export class GameServer {
   };
   public static getUserCollection = () => GameServer._userCollection;
   public static getChatCollection = () => GameServer._chatCollection;
-  public static getRoomsCollection = () => {};
+  public static getRoomsCollection = () => GameServer._roomsCollection;
   public static handleMessage = (message: string, socket?: WebSocket) => {
     const {type, data}: IWSMessage = JSON.parse(message);
     produceAction(type, data, socket);

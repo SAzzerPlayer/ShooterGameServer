@@ -1,3 +1,21 @@
+@font-face {
+  font-family: 'Exo2';
+  src: url('../Exo2-VariableFont_wght.ttf') format('truetype');
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+label,
+button {
+  font-family: 'Exo2';
+}
+
 body {
   background: no-repeat url('../../assets/background/lobby.png');
   background-size: 100% auto;
@@ -12,7 +30,7 @@ main {
   display: flex;
   flex: 1;
   flex-direction: column;
-  background-color: white;
+  background-color: #c3b1d0;
   border-radius: 32px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
@@ -31,9 +49,9 @@ main {
 
 .main-info-block {
   width: 175px;
-  background-color: yellow;
   display: flex;
   flex-direction: column;
+  border: 1px solid gray;
   align-items: center;
   justify-content: space-around;
   text-align: center;

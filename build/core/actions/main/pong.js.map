@@ -1,0 +1,1 @@
+{"version":3,"file":"pong.js","sourceRoot":"","sources":["../../../../core/actions/main/pong.ts"],"names":[],"mappings":";;AAAA,uCAAuC;AAE1B,QAAA,IAAI,GAAG,CAAC,QAAgB,EAAE,EAAE;IACvC,MAAM,IAAI,GAAG,kBAAU,CAAC,iBAAiB,EAAE,CAAC,SAAS,CAAC,QAAQ,CAAC,CAAC;IAChE,IAAI,IAAI,EAAE;QACR,IAAI,CAAC,aAAa,EAAE,CAAC;KACtB;AACH,CAAC,CAAC"}

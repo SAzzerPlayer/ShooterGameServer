@@ -2,14 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const http = require("http");
-const WebSocket = require("ws");
+const WebSocketModule = require("ws");
 const fs = require("fs");
-const WSServerCore_1 = require("./logic/WSServerCore");
-const ServerUserContainer_1 = require("./logic/WSServerCore/ServerUserContainer");
+const core_1 = require("./core");
 //
 const app = express();
 const server = http.createServer(app);
-const wsServer = new WebSocket.Server({ server });
+const wsServer = new WebSocketModule.Server({ server });
 const PORT = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
 const IP = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || 'localhost';
 //
@@ -18,10 +17,10 @@ app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 //
 app.get('/create_user', (req, res) => {
-    const { key, name, avatar } = req.query;
-    ServerUserContainer_1.ServerUserContainer.register({
+    const { key, username, avatar } = req.query;
+    core_1.GameServer.getUserCollection().register({
         key: key,
-        name: name,
+        username: username,
         avatar: Number(avatar),
     });
     res.redirect('lobbies');
@@ -41,27 +40,18 @@ app.get('/', (req, res) => {
 });
 //
 wsServer.on('connection', (ws) => {
-    WSServerCore_1.default.peerSockets.push(ws);
     ws.on('message', (message) => {
-        WSServerCore_1.default.handleMessage(message, ws);
+        //@ts-ignore
+        core_1.GameServer.handleMessage(message, ws);
     });
     ws.on('error', (err) => {
         console.log('[Socket error]:', err);
-    });
-    ws.on('close', () => {
-        const user = ServerUserContainer_1.ServerUserContainer.getUserBy(ws, 'socket');
-        setTimeout(() => {
-            var _a, _b;
-            if (user && ((_a = user === null || user === void 0 ? void 0 : user.socket) === null || _a === void 0 ? void 0 : _a.readyState) === ((_b = user === null || user === void 0 ? void 0 : user.socket) === null || _b === void 0 ? void 0 : _b.CLOSED)) {
-                ServerUserContainer_1.ServerUserContainer.removeUser(user.key);
-                console.log(`Socket was closed. User ${user === null || user === void 0 ? void 0 : user.name} has been left the server`);
-            }
-        }, 15000);
     });
 });
 exports.HOST = `${IP}:${PORT}`;
 server.listen(PORT, () => {
     console.log(`Server is listening on address - ${exports.HOST}`);
+    core_1.GameServer.startPingPong();
 });
 fs.writeFile('./build/generated-host.js', `const HOST = '${IP}:${PORT}';`, (err) => {
     console.log('Writing generated-host. Error?:' + err);
