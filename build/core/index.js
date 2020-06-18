@@ -5,13 +5,14 @@ const components_1 = require("./components");
 const PING_PONG_INTERVAL = 5000; // ms
 const MAX_ROOMS_AMOUNT = 4;
 const MAX_USERS_AMOUNT = 20;
+const MAX_PING_PONG_FAILURE_SIGNAL_AMOUNT = 3;
 const CHAT_MESSAGES_LIMIT = 200;
 class GameServer {
 }
 exports.GameServer = GameServer;
 GameServer._userCollection = new components_1.UserCollection(MAX_USERS_AMOUNT);
 GameServer._chatCollection = new components_1.ChatCollection(CHAT_MESSAGES_LIMIT);
-GameServer._roomsCollection = [];
+GameServer._roomsCollection = new components_1.RoomsCollection(MAX_ROOMS_AMOUNT);
 GameServer.pingPongTimerId = 0;
 GameServer.sendToUser = (username, message) => {
     const user = GameServer._userCollection.getUserBy(username);
@@ -65,7 +66,7 @@ GameServer.startPingPong = () => {
                 };
                 GameServer.sendToUser(user.username, message);
             }
-            if (user.numberOfFailures > 6) {
+            if (user.numberOfFailures > MAX_PING_PONG_FAILURE_SIGNAL_AMOUNT) {
                 GameServer.getUserCollection().unregister(user);
             }
         }

@@ -7,3 +7,4 @@ export {
   IOutputWSMessageData,
 } from './TWSMessage';
 export {IChatMessage} from './IChatMessage';
+export {ServerRoom, TServerRoomUserLimit, EServerRoomComplexity} from './ServerRoom';

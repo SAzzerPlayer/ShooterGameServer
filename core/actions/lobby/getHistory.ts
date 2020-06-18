@@ -8,6 +8,18 @@ export const getHistory = (username: string) => {
       chat: {
         history: GameServer.getChatCollection().getMessages(),
       },
+      room: {
+        history: GameServer.getRoomsCollection()
+          .getRooms()
+          .map((currentRoom) => {
+            return {
+              id: currentRoom.id,
+              complexity: currentRoom.complexity,
+              usersLimit: currentRoom.usersLimit,
+              usersAmount: currentRoom.users.length,
+            };
+          }),
+      },
       result: true,
     },
   };

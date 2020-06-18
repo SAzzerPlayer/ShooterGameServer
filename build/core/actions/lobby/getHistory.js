@@ -8,6 +8,18 @@ exports.getHistory = (username) => {
             chat: {
                 history: index_1.GameServer.getChatCollection().getMessages(),
             },
+            room: {
+                history: index_1.GameServer.getRoomsCollection()
+                    .getRooms()
+                    .map((currentRoom) => {
+                    return {
+                        id: currentRoom.id,
+                        complexity: currentRoom.complexity,
+                        usersLimit: currentRoom.usersLimit,
+                        usersAmount: currentRoom.users.length,
+                    };
+                }),
+            },
             result: true,
         },
     };

@@ -14,6 +14,13 @@ interface IChatMessage {
   text: string;
 }
 
+interface IRoomMessage {
+  id?: string;
+  complexity?: 'Easy' | 'Medium' | 'Hard' | 'Impossible';
+  usersLimit?: 1 | 2 | 3 | 4;
+  usersAmount?: number;
+}
+
 const socket = new WebSocket('ws://localhost:8080/');
 
 const CURRENT_USER_OBJ = {
@@ -52,6 +59,11 @@ socket.onmessage = (messageEvent) => {
           addMessageToChat(chatMessage as IChatMessage);
         }
       }
+      if (message?.data?.room?.history) {
+        for (const roomMessage of message.data.room.history) {
+          addRoomToLobbies(roomMessage);
+        }
+      }
       break;
     }
     case 'CHAT/PUSH_MESSAGE': {
@@ -61,7 +73,7 @@ socket.onmessage = (messageEvent) => {
       break;
     }
     case 'MAIN/WARNING': {
-      alert(message?.data?.warning);
+      alert(message?.data?.message);
       break;
     }
     case 'MAIN/PING': {
@@ -76,24 +88,23 @@ socket.onmessage = (messageEvent) => {
       socket.send(JSON.stringify(message));
       break;
     }
-    /*case 'LOBBY/CREATE_NEW_ROOM': {
-      if (message.user.key === CURRENT_USER_OBJ.key) {
-        window.location.href = `/direct_to_room/?room=${message.room.key}&user=${message.user.key}`;
-      }
-      addRoomToLobbies(message.room);
-      break;
-    }
-    case 'LOBBY/JOIN_ROOM': {
-      window.location.href = `/direct_to_room/?room=${message.room.key}&user=${CURRENT_USER_OBJ.key}`;
-      break;
-    }
-    case 'LOBBY/REFRESH_LOBBY': {
-      cleanLobbiesRooms();
-      for (const room of message.rooms) {
-        addRoomToLobbies(room);
+    case 'ROOMS/JOIN_ROOM': {
+      if (message.data?.room?.single?.id) {
+        const roomIdParam = `roomId=${message.data.room.single.id}`;
+        sessionStorage.setItem('roomId', message.data.room.single.id);
+        window.location.href = `/direct_to_room/?${roomIdParam}&user=${CURRENT_USER_OBJ.username}`;
       }
       break;
-    }*/
+    }
+    case 'ROOMS/LOBBY_UPDATE': {
+      if (message?.data?.room?.history) {
+        cleanLobbiesRooms();
+        for (const room of message.data.room.history) {
+          addRoomToLobbies(room);
+        }
+      }
+      break;
+    }
   }
 };
 
@@ -181,11 +192,15 @@ const cleanLobbiesRooms = () => {
   }
 };
 
-/*const joinGameRoom = (room: IRoomMessage) => {
+const joinGameRoom = (room: IRoomMessage) => {
   const message = {
-    type: 'LOBBY/JOIN_ROOM',
-    room,
-    user: CURRENT_USER_OBJ,
+    type: 'ROOMS/JOIN_ROOM',
+    data: {
+      user: CURRENT_USER_OBJ,
+      room: {
+        single: room,
+      },
+    },
   };
   socket.send(JSON.stringify(message));
 };
@@ -204,7 +219,7 @@ const addRoomToLobbies = (message: IRoomMessage) => {
   roomComplexity.textContent = `${message.complexity}`;
   //
   const roomUsers = document.createElement('p') as HTMLParagraphElement;
-  roomUsers.textContent = `${message.currentUsers}/${message.limitUsers}`;
+  roomUsers.textContent = `${message.usersAmount}/${message.usersLimit}`;
   //
   const roomJoinButton = document.createElement('button') as HTMLButtonElement;
   roomJoinButton.className = 'main-interactive-button';
@@ -219,7 +234,7 @@ const addRoomToLobbies = (message: IRoomMessage) => {
   lobby.appendChild(roomDiv);
   //
   updateAmountOfRooms();
-};*/
+};
 
 const checkUserHasData = () => {
   const key = sessionStorage.getItem('key');
@@ -241,7 +256,16 @@ const createGameRoom = () => {
   const message = {
     room: {limitUsers: selectRoomUsersRef.value, complexity: selectRoomComplexityRef.value},
     user: {key: CURRENT_USER_OBJ.key},
-    type: 'LOBBY/CREATE_NEW_ROOM',
+    type: 'ROOMS/CREATE_ROOM',
+    data: {
+      room: {
+        single: {
+          complexity: selectRoomComplexityRef.value,
+          usersLimit: selectRoomUsersRef.value,
+        },
+      },
+      user: CURRENT_USER_OBJ,
+    },
   };
   socket.send(JSON.stringify(message));
 };

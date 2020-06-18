@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const main_1 = require("./main");
 const chat_1 = require("./chat");
 const lobby_1 = require("./lobby");
+const rooms_1 = require("./rooms");
 exports.produceAction = (type, data, senderSocket) => {
     console.log(`[Received message]: ${type}`);
     switch (type) {
@@ -24,6 +25,15 @@ exports.produceAction = (type, data, senderSocket) => {
         }
         case 'LOBBY/GET_HISTORY': {
             lobby_1.lobbyGetHistory(data.user.username);
+            break;
+        }
+        case 'ROOMS/CREATE_ROOM': {
+            console.log(data);
+            rooms_1.roomsCreateRoom(data.room.single.complexity, data.room.single.usersLimit, data.user.username);
+            break;
+        }
+        case 'ROOMS/JOIN_ROOM': {
+            rooms_1.roomsJoinRoom(data.user.username, data.room.single.id);
             break;
         }
         default: {

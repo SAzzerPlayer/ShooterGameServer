@@ -29,7 +29,7 @@ app.get('/room', (req, res) => {
     res.render(__dirname + '/views/game/index.html');
 });
 app.get('/direct_to_room', (req, res) => {
-    const { room, user } = req.query;
+    const { roomId, user } = req.query;
     res.redirect('/room');
 });
 app.get('/lobbies', (req, res) => {

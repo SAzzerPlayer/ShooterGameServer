@@ -1,4 +1,5 @@
 import {IServerUserParams} from './ServerUser';
+import {IServerRoomParams} from './ServerRoom';
 import {IChatMessage} from './IChatMessage';
 
 type TWSMessageMain =
@@ -30,7 +31,10 @@ export interface IWSMessageData {
   };
   game?: {};
   user?: IServerUserParams;
-  room?: {};
+  room?: {
+    history?: IServerRoomParams[];
+    single?: IServerRoomParams;
+  };
 }
 
 export interface IWSMessage {
