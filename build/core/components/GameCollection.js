@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const shared_1 = require("../shared");
 const game_1 = require("../actions/game");
+const index_1 = require("../index");
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
@@ -127,9 +128,9 @@ class ServerEnemy {
 }
 exports.ServerEnemy = ServerEnemy;
 const Enemies = {
-    Light: new ServerEnemy(24, 24, 6, 2, [{ position: { x: 15, y: 15 }, radius: 15 }], 20, 'Light'),
-    Medium: new ServerEnemy(36, 36, 12, 4, [{ position: { x: 15, y: 15 }, radius: 15 }], 50, 'Medium'),
-    Large: new ServerEnemy(48, 48, 18, 5, [{ position: { x: 15, y: 15 }, radius: 15 }], 100, 'Large'),
+    Light: new ServerEnemy(24, 24, 8, 4, [{ position: { x: 12, y: 12 }, radius: 12 }], 20, 'Light'),
+    Medium: new ServerEnemy(36, 36, 16, 6, [{ position: { x: 18, y: 18 }, radius: 18 }], 50, 'Medium'),
+    Large: new ServerEnemy(48, 48, 40, 10, [{ position: { x: 24, y: 24 }, radius: 24 }], 100, 'Large'),
 };
 class GameCollection {
     constructor(roomId, complexity, field, users) {
@@ -249,6 +250,18 @@ class GameCollection {
         };
         this.statsTimer = setInterval(() => {
             this.time -= 0.5;
+            let activeGamers = 0;
+            for (const gamer of [1, 2, 3, 4]) {
+                //@ts-ignore
+                const userG = this.gamers[gamer];
+                if ((userG === null || userG === void 0 ? void 0 : userG.health) > 1)
+                    activeGamers += 1;
+            }
+            if (activeGamers === 0) {
+                this.status = EGameCollectionStatus.END;
+                this.time = 0;
+            }
+            console.log(this.status);
             game_1.gameUpdate(this.roomId);
             if (this.time <= 0) {
                 clearInterval(this.energyTimer);
@@ -271,6 +284,8 @@ class GameCollection {
                     }
                     case EGameCollectionStatus.END: {
                         clearInterval(this.statsTimer);
+                        game_1.gameUpdate(this.roomId);
+                        index_1.GameServer.getRoomsCollection().deleteRoom(this.roomId);
                         break;
                     }
                 }

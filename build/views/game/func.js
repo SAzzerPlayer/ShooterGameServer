@@ -24,7 +24,7 @@ const avatars = [
     '../../assets/avatars/5.jpg',
     '../../assets/avatars/6.jpg',
 ];
-const gamerSocket = new WebSocket('ws://shooter-game-server-lab2game.apps.us-east-1.starter.openshift-online.com/');
+const gamerSocket = new WebSocket('ws://shooter-game1-server-git-lab2game.apps.us-east-1.starter.openshift-online.com/');
 gamerSocket.onmessage = (messageEvent) => {
     const message = JSON.parse(messageEvent.data);
     switch (message.type) {
@@ -141,11 +141,11 @@ const updateField = (enemies, gamers, state) => {
         }
         const rewardRef = document.getElementById(`gamer-${index}-reward`);
         rewardRef.innerText = `${gamer.reward}`;
-        index += 1;
         if (gamer.health <= 1) {
             const avatarRef = document.getElementById(`gamer-${index}-avatar`);
             avatarRef.style.border = '5px yellow solid';
         }
+        index += 1;
     }
     CURRENT_STATISTICS.stage = state.stage;
     CURRENT_STATISTICS.time = state.time;

@@ -1,5 +1,6 @@
 import {EServerRoomComplexity, ServerUser} from '../shared';
 import {gameUpdate} from '../actions/game';
+import {GameServer} from '../index';
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -170,9 +171,9 @@ export class ServerEnemy {
 }
 
 const Enemies = {
-  Light: new ServerEnemy(24, 24, 6, 2, [{position: {x: 15, y: 15}, radius: 15}], 20, 'Light'),
-  Medium: new ServerEnemy(36, 36, 12, 4, [{position: {x: 15, y: 15}, radius: 15}], 50, 'Medium'),
-  Large: new ServerEnemy(48, 48, 18, 5, [{position: {x: 15, y: 15}, radius: 15}], 100, 'Large'),
+  Light: new ServerEnemy(24, 24, 8, 4, [{position: {x: 12, y: 12}, radius: 12}], 20, 'Light'),
+  Medium: new ServerEnemy(36, 36, 16, 6, [{position: {x: 18, y: 18}, radius: 18}], 50, 'Medium'),
+  Large: new ServerEnemy(48, 48, 40, 10, [{position: {x: 24, y: 24}, radius: 24}], 100, 'Large'),
 };
 
 export class GameCollection {
@@ -317,7 +318,19 @@ export class GameCollection {
     };
     this.statsTimer = setInterval(() => {
       this.time -= 0.5;
+      let activeGamers = 0;
+      for (const gamer of [1, 2, 3, 4]) {
+        //@ts-ignore
+        const userG = this.gamers[gamer];
+        if (userG?.health > 1) activeGamers += 1;
+      }
+      if (activeGamers === 0) {
+        this.status = EGameCollectionStatus.END;
+        this.time = 0;
+      }
+      console.log(this.status);
       gameUpdate(this.roomId);
+
       if (this.time <= 0) {
         clearInterval(this.energyTimer);
         clearInterval(this.healthTimer);
@@ -339,6 +352,8 @@ export class GameCollection {
           }
           case EGameCollectionStatus.END: {
             clearInterval(this.statsTimer);
+            gameUpdate(this.roomId);
+            GameServer.getRoomsCollection().deleteRoom(this.roomId);
             break;
           }
         }

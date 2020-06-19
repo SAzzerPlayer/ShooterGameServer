@@ -21,7 +21,6 @@ interface IRoomMessage {
   usersAmount?: number;
 }
 
-
 const CURRENT_USER_OBJ = {
   key: '',
   username: '',
@@ -36,7 +35,9 @@ const updateAmountOfRooms = () => {
   ) as HTMLSpanElement).textContent = `${amountOfRooms}/4`;
 };
 
-const socket = new WebSocket('ws://shooter-game-server-lab2game.apps.us-east-1.starter.openshift-online.com/');
+const socket = new WebSocket(
+  'ws://shooter-game1-server-git-lab2game.apps.us-east-1.starter.openshift-online.com/',
+);
 
 socket.onmessage = (messageEvent) => {
   const message = JSON.parse(messageEvent.data);
