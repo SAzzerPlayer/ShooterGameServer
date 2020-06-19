@@ -147,11 +147,11 @@ const updateField = (enemies: any[], gamers: any[], state: any) => {
     }
     const rewardRef = document.getElementById(`gamer-${index}-reward`) as HTMLParagraphElement;
     rewardRef.innerText = `${gamer.reward}`;
-    index += 1;
     if (gamer.health <= 1) {
       const avatarRef = document.getElementById(`gamer-${index}-avatar`) as HTMLImageElement;
       avatarRef.style.border = '5px yellow solid';
     }
+    index += 1;
   }
 
   CURRENT_STATISTICS.stage = state.stage;
