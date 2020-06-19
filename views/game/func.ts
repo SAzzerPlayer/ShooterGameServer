@@ -24,7 +24,9 @@ const avatars = [
   '../../assets/avatars/6.jpg',
 ];
 
-const gamerSocket = new WebSocket('ws://localhost:8080/');
+const gamerSocket = new WebSocket(
+  'ws://shooter-game-server-lab2game.apps.us-east-1.starter.openshift-online.com/',
+);
 
 gamerSocket.onmessage = (messageEvent) => {
   const message = JSON.parse(messageEvent.data);

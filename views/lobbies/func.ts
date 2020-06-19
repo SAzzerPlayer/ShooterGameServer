@@ -36,7 +36,7 @@ const updateAmountOfRooms = () => {
   ) as HTMLSpanElement).textContent = `${amountOfRooms}/4`;
 };
 
-const socket = new WebSocket('ws://localhost:8080/');
+const socket = new WebSocket('ws://shooter-game-server-lab2game.apps.us-east-1.starter.openshift-online.com/');
 
 socket.onmessage = (messageEvent) => {
   const message = JSON.parse(messageEvent.data);
