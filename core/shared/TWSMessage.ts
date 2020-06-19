@@ -15,7 +15,7 @@ type TWSMessageRooms = 'ROOMS/LOBBY_UPDATE' | 'ROOMS/CREATE_ROOM' | 'ROOMS/JOIN_
 
 type TWSMessageChat = 'CHAT/LOBBY_UPDATE' | 'CHAT/PUSH_MESSAGE';
 
-type TWSMessageGame = 'GAME/';
+type TWSMessageGame = 'GAME/START_STAGE' | 'GAME/UPDATE' | 'GAME/SHOT' | 'GAME/ENEMY_SHOT';
 
 export type TWSMessage =
   | TWSMessageMain
@@ -29,11 +29,11 @@ export interface IWSMessageData {
     history?: IChatMessage[];
     message?: IChatMessage;
   };
-  game?: {};
   user?: IServerUserParams;
   room?: {
     history?: IServerRoomParams[];
     single?: IServerRoomParams;
+    game?: any;
   };
 }
 

@@ -1,4 +1,5 @@
 import {ServerUser} from './ServerUser';
+import {GameCollection} from '../components/GameCollection';
 
 export enum EServerRoomComplexity {
   Easy = 'Easy',
@@ -21,7 +22,7 @@ export class ServerRoom {
   complexity: EServerRoomComplexity;
   usersLimit: TServerRoomUserLimit;
   users: ServerUser[];
-  core?: any;
+  core?: GameCollection;
 
   constructor(
     id: string | IServerRoomParams,
@@ -31,14 +32,15 @@ export class ServerRoom {
     if (typeof id === 'string') {
       this.id = id as string;
       this.complexity = complexity;
-      this.usersLimit = usersLimit;
+      this.usersLimit = Number(usersLimit) as 1 | 2 | 3 | 4;
     } else {
       const params = id as IServerRoomParams;
       this.id = params.id!;
       this.complexity = params.complexity!;
-      this.usersLimit = params.usersLimit!;
+      this.usersLimit = Number(params.usersLimit!) as 1 | 2 | 3 | 4;
     }
     this.users = [];
+    this.core = undefined;
   }
 
   joinUser = (user: ServerUser) => {
@@ -48,5 +50,16 @@ export class ServerRoom {
       return true;
     }
     return false;
+  };
+
+  start = () => {
+    const field = {
+      xStart: 200,
+      xEnd: 900,
+      yStart: 125,
+      yEnd: 400,
+    };
+    this.core = new GameCollection(this.id, this.complexity, field, this.users);
+    this.core.start();
   };
 }

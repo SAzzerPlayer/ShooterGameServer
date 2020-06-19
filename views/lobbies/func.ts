@@ -21,7 +21,6 @@ interface IRoomMessage {
   usersAmount?: number;
 }
 
-const socket = new WebSocket('ws://localhost:8080/');
 
 const CURRENT_USER_OBJ = {
   key: '',
@@ -36,6 +35,8 @@ const updateAmountOfRooms = () => {
     'available-rooms',
   ) as HTMLSpanElement).textContent = `${amountOfRooms}/4`;
 };
+
+const socket = new WebSocket('ws://localhost:8080/');
 
 socket.onmessage = (messageEvent) => {
   const message = JSON.parse(messageEvent.data);

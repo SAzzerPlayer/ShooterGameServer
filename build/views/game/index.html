@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/views/game/team-area.css" />
     <link rel="stylesheet" href="/views/game/user-vs.css" />
     <script src="/views/game/func.js"></script>
+    <script src="/views/game/screenEffects.js"></script>
   </head>
   <body>
     <main>
@@ -17,42 +18,51 @@
       <h3 id="game-title" class="title">STAGE #<span id="game-stage-number">1</span></h3>
       <div id="team-table">
         <div id="gamer-1" class="gamer-block">
-          <img id="gamer-1-avatar" class="avatar" src="../../assets/avatars/1.jpg" />
-          <span id="gamer-1-username" class="username">Name</span>
+          <img id="gamer-1-avatar" class="avatar" src="../../assets/avatars/unavailable.png" />
+          <span id="gamer-1-username" class="username">-----</span>
+          <span id="gamer-1-reward" class="username"></span>
         </div>
         <div id="gamer-2" class="gamer-block">
-          <img id="gamer-2-avatar" class="avatar" src="../../assets/avatars/1.jpg" />
-          <span id="gamer-2-username" class="username">Name</span>
+          <img id="gamer-2-avatar" class="avatar" src="../../assets/avatars/unavailable.png" />
+          <span id="gamer-2-username" class="username">------</span>
+          <span id="gamer-2-reward" class="username"></span>
         </div>
         <div id="gamer-3" class="gamer-block">
           <img id="gamer-3-avatar" class="avatar" src="../../assets/avatars/unavailable.png" />
-          <span id="gamer-3-username" class="username">Name</span>
+          <span id="gamer-3-username" class="username">------</span>
+          <span id="gamer-3-reward" class="username"></span>
         </div>
         <div id="gamer-4" class="gamer-block">
           <img id="gamer-4-avatar" class="avatar" src="../../assets/avatars/unavailable.png" />
-          <span id="gamer-4-username" class="username">Name</span>
+          <span id="gamer-4-username" class="username">------</span>
+          <span id="gamer-4-reward" class="username"></span>
         </div>
       </div>
-      <div id="info-table"></div>
-      <div id="game-area"></div>
+      <div id="info-table">
+        <p id="status-field">Status: WAITING</p>
+        <p id="time-field">Time(s): ---</p>
+        <p id="enemies-field">Enemies: 0</p>
+        <p id="complexity-field">Complexity: ---</p>
+      </div>
+      <div id="game-area" onclick="shotEffect(event);"></div>
       <div id="user-table">
         <div id="user-name-body">
-          <span id="user-name">Name</span>
+          <span id="user-name">-----</span>
         </div>
-        <img id="user-avatar" src="../../assets/avatars/1.jpg" />
+        <img id="user-avatar" src="../../assets/avatars/unavailable.png" alt="user-avatar" />
         <div id="user-health-body">
-          <p id="user-health-title">HEALTH</p>
-          <p><span id="user-health">100</span>%</p>
+          <span id="user-health-title">HEALTH</span>
+          <span id="user-health">100%</span>
         </div>
-        <img id="laser-gun" src="../../assets/imgs/gun.png"/>
+        <img id="laser-gun" src="../../assets/imgs/gun.png" alt="gun" />
         <div id="battery-level-body">
-          <p id="battery-level-limit">
+          <span id="battery-level-limit">
             ENERGY
-          </p>
-          <img id="battery-state" src="../../assets/imgs/bat-level-3.png"/>
+          </span>
+          <img id="battery-state" src="../../assets/imgs/bat-level-3.png" alt="battery-state" />
         </div>
       </div>
-      <button id="exit-room">Exit</button>
+      <button id="exit-room" onclick="leaveRoom();" style="cursor: pointer;">Exit</button>
     </main>
   </body>
 </html>

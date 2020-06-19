@@ -4,6 +4,8 @@ const main_1 = require("./main");
 const chat_1 = require("./chat");
 const lobby_1 = require("./lobby");
 const rooms_1 = require("./rooms");
+const startStage_1 = require("./game/startStage");
+const shot_1 = require("./game/shot");
 exports.produceAction = (type, data, senderSocket) => {
     console.log(`[Received message]: ${type}`);
     switch (type) {
@@ -34,6 +36,14 @@ exports.produceAction = (type, data, senderSocket) => {
         }
         case 'ROOMS/JOIN_ROOM': {
             rooms_1.roomsJoinRoom(data.user.username, data.room.single.id);
+            break;
+        }
+        case 'GAME/START_STAGE': {
+            startStage_1.startStage(data.room.single.id);
+            break;
+        }
+        case 'GAME/SHOT': {
+            shot_1.shot(data.user.username, data.room.single.id, data.room.game.action.shot);
             break;
         }
         default: {

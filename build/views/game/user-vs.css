@@ -1,11 +1,14 @@
 #user-table {
   grid-area: user-table;
-  background: pink;
+  background: #c3b1d0;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  border-width: 3px;
+  border-style: solid;
+  border-color: gray;
 }
 
 #user-avatar {
@@ -16,9 +19,13 @@
 #user-name-body {
   display: flex;
   height: 80px;
-  width: 80px;
+  width: 200px;
   align-items: center;
   justify-content: center;
+  border-width: 0;
+  border-right-width: 3px;
+  border-color: gray;
+  border-style: solid;
 }
 
 #user-name {
@@ -28,12 +35,53 @@
 
 #laser-gun {
   height: 100%;
+  width: 180px;
+  border-width: 0;
+  border-right-width: 3px;
+  border-left-width: 3px;
+  border-color: gray;
+  border-style: solid;
+  margin-left: 36px;
+  margin-right: 36px;
 }
 
 #battery-level-body {
-    width: 100px;
+  display: flex;
+  width: 200px;
+  height: 80px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border-width: 0;
+  border-left-width: 3px;
+  border-right-width: 3px;
+  border-color: gray;
+  border-style: solid;
+  font-weight: bolder;
 }
 
 #battery-state {
   width: 60px;
+}
+
+#user-health-body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 80px;
+  width: 160px;
+  border-width: 0;
+  border-left-width: 3px;
+  border-right-width: 3px;
+  border-color: gray;
+  border-style: solid;
+}
+
+#user-health-body {
+  font-weight: bolder;
+}
+
+#user-health {
+  color: green;
 }

@@ -3,6 +3,8 @@ import {mainBindUser, mainPong, mainCheckUser} from './main';
 import {chatPushMessage} from './chat';
 import {lobbyGetHistory} from './lobby';
 import {roomsCreateRoom, roomsJoinRoom} from './rooms';
+import {startStage} from './game/startStage';
+import {shot} from './game/shot';
 
 export const produceAction = (type: TWSMessage, data: IWSMessageData, senderSocket?: WebSocket) => {
   console.log(`[Received message]: ${type}`);
@@ -38,6 +40,14 @@ export const produceAction = (type: TWSMessage, data: IWSMessageData, senderSock
     }
     case 'ROOMS/JOIN_ROOM': {
       roomsJoinRoom(data.user!.username!, data.room!.single!.id!);
+      break;
+    }
+    case 'GAME/START_STAGE': {
+      startStage(data.room!.single!.id!);
+      break;
+    }
+    case 'GAME/SHOT': {
+      shot(data.user!.username, data.room!.single!.id!, data.room!.game!.action.shot);
       break;
     }
     default: {

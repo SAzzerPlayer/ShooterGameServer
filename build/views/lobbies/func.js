@@ -8,7 +8,6 @@ const avatars = [
     '../../assets/avatars/5.jpg',
     '../../assets/avatars/6.jpg',
 ];
-const socket = new WebSocket('ws://localhost:8080/');
 const CURRENT_USER_OBJ = {
     key: '',
     username: '',
@@ -18,6 +17,7 @@ let amountOfRooms = 0;
 const updateAmountOfRooms = () => {
     document.getElementById('available-rooms').textContent = `${amountOfRooms}/4`;
 };
+const socket = new WebSocket('ws://localhost:8080/');
 socket.onmessage = (messageEvent) => {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
     const message = JSON.parse(messageEvent.data);
